@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cumpleanos de Cesar - 64 Años</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0d0500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  }
+
+  .invite-wrap {
+    background: #1a0a00;
+    border-radius: 16px;
+    overflow: hidden;
+    color: #f5e6c8;
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 0 60px #c8860030, 0 0 120px #c8860010;
+  }
+
+  /* Vinyl decorative background */
+  .vinyl-bg {
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 2px solid #c8860015;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .vinyl-bg::before {
+    content: '';
+    position: absolute;
+    inset: 25px;
+    border-radius: 50%;
+    border: 2px solid #c8860015;
+  }
+  .vinyl-bg::after {
+    content: '';
+    position: absolute;
+    inset: 50px;
+    border-radius: 50%;
+    border: 2px solid #c8860015;
+  }
+
+  /* Animated top bar */
+  .lightning-bar {
+    height: 6px;
+    background: linear-gradient(90deg, #c88600, #ffcc00, #ff6600, #ffcc00, #c88600);
+    background-size: 300% 100%;
+    animation: shimmer 3s linear infinite;
+    position: relative;
+    z-index: 1;
+  }
+  @keyframes shimmer {
+    0% { background-position: 0% 0; }
+    100% { background-position: 300% 0; }
+  }
+
+  /* Ticket top strip */
+  .ticket-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 24px;
+    background: #0d0500;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #c8860055;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header section */
+  .header {
+    padding: 28px 24px 16px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .era-label {
+    font-size: 11px;
+    letter-spacing: 7px;
+    color: #c88600;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-family: 'Special Elite', serif;
+  }
+
+  .main-title {
+    font-size: 58px;
+    font-weight: 700;
+    color: #ffcc00;
+    line-height: 0.95;
+    text-shadow: 3px 3px 0 #7a3d00, 6px 6px 0 #3d1e00;
+    letter-spacing: 3px;
+    margin-bottom: 6px;
+    animation: title-flicker 6s ease-in-out infinite;
+  }
+  @keyframes title-flicker {
+    0%, 90%, 100% { opacity: 1; }
+    92% { opacity: 0.85; }
+    94% { opacity: 1; }
+    96% { opacity: 0.9; }
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: #f5e6c880;
+    letter-spacing: 6px;
+    margin-bottom: 20px;
+    font-family: 'Special Elite', serif;
+  }
+
+  /* Vinyl record */
+  .vinyl-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin: 4px auto 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .vinyl {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%,
+        #aaa 0%, #999 7%,
+        #111 7%, #1c1c1c 11%,
+        #111 11%, #181818 20%,
+        #111 20%, #181818 30%,
+        #111 30%, #181818 40%,
+        #111 40%, #181818 52%,
+        #111 52%, #181818 65%,
+        #111 65%, #181818 80%,
+        #111 80%
+      );
+    border: 3px solid #2a2a2a;
+    position: relative;
+    animation: spin 5s linear infinite paused;
+    box-shadow:
+      0 0 0 3px #c8860025,
+      0 0 24px #c8860035,
+      inset 0 0 20px #00000080;
+    transition: box-shadow 0.4s;
+  }
+  .vinyl.spinning {
+    animation-play-state: running;
+    box-shadow:
+      0 0 0 3px #c88600aa,
+      0 0 40px #c8860060,
+      inset 0 0 20px #00000080;
+  }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+
+  .vinyl-label {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%, #e09a00, #a86500);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7px;
+    font-weight: 700;
+    color: #1a0a00;
+    text-align: center;
+    line-height: 1.3;
+    padding: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .play-hint {
+    font-size: 10px;
+    color: #c8860070;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .play-hint.on { color: #ffcc00; }
+
+  /* Amp dots */
+  .amp-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 6px 0 0;
+  }
+  .amp-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #c88600;
+    opacity: 0.3;
+  }
+  .amp-dot.lit {
+    opacity: 1;
+    animation: blink 1.2s ease-in-out infinite;
+  }
+  .amp-dot.lit:nth-child(3) { animation-delay: 0.4s; }
+  .amp-dot.lit:nth-child(5) { animation-delay: 0.8s; }
+  @keyframes blink {
+    0%, 100% { opacity: 1; box-shadow: 0 0 5px #ffcc00; }
+    50% { opacity: 0.25; box-shadow: none; }
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 24px;
+    margin: 10px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .divider-line { flex: 1; height: 1px; background: #c8860040; }
+  .divider-icon { color: #c88600; font-size: 16px; font-family: serif; }
+
+  /* Name section */
+  .name-section {
+    text-align: center;
+    padding: 4px 24px 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .presents-text {
+    font-size: 10px;
+    letter-spacing: 6px;
+    color: #c8860080;
+    text-transform: uppercase;
+    font-family: 'Special Elite', serif;
+    margin-bottom: 4px;
+  }
+
+  .cesar-name {
+    font-size: 72px;
+    font-weight: 700;
+    color: #ff6600;
+    letter-spacing: 6px;
+    text-shadow: 3px 3px 0 #7a2800, 5px 5px 0 #3d1400;
+    line-height: 1;
+    margin: 4px 0;
+    animation: pulse-name 3s ease-in-out infinite;
+  }
+  @keyframes pulse-name {
+    0%, 100% { text-shadow: 3px 3px 0 #7a2800, 5px 5px 0 #3d1400; }
+    50% { text-shadow: 3px 3px 0 #7a2800, 5px 5px 0 #3d1400, 0 0 40px #ff660055; }
+  }
+
+  .turns-text {
+    font-size: 16px;
+    color: #f5e6c8;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-family: 'Special Elite', serif;
+  }
+
+  /* Bands strip */
+  .bands-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 10px 24px;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+  .band-pill {
+    background: #2a1400;
+    border: 1px solid #c8860040;
+    border-radius: 3px;
+    padding: 3px 10px;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #c88600;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Info grid */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: #c8860020;
+    margin: 10px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .info-cell {
+    background: #1a0a00;
+    padding: 18px 12px;
+    text-align: center;
+    cursor: default;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+  }
+  .info-cell:hover { background: #241000; }
+
+  .info-cell.clickable { cursor: pointer; }
+
+  .info-icon {
+    font-size: 22px;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .info-label {
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: #c88600;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+  }
+  .info-value {
+    font-size: 13px;
+    color: #f5e6c8;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: block;
+    line-height: 1.4;
+  }
+
+  .maps-cell .info-value {
+    color: #ffcc00;
+  }
+  .maps-badge {
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #c88600;
+    background: #2a1400;
+    border: 1px solid #c8860050;
+    border-radius: 3px;
+    padding: 2px 7px;
+  }
+
+  /* RSVP section */
+  .rsvp-section {
+    padding: 20px 24px 24px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .rsvp-label {
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: #c8860080;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-family: 'Special Elite', serif;
+  }
+
+  .rsvp-btn {
+    background: #c88600;
+    color: #1a0a00;
+    border: none;
+    padding: 15px 36px;
+    font-family: 'Oswald', 'Arial Narrow', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    display: inline-block;
+    box-shadow: 0 4px 20px #c8860040;
+  }
+  .rsvp-btn:hover {
+    background: #ffcc00;
+    box-shadow: 0 4px 30px #ffcc0060;
+    transform: translateY(-2px);
+  }
+  .rsvp-btn:active { transform: scale(0.97); }
+  .rsvp-btn.done { background: #1a5200; color: #7fff50; box-shadow: 0 4px 20px #00ff5020; }
+
+  .rsvp-msg {
+    display: none;
+    margin-top: 14px;
+    animation: fadeUp 0.5s ease;
+  }
+  .rsvp-msg.show { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .rsvp-msg p {
+    font-size: 14px;
+    color: #ffcc00;
+    letter-spacing: 2px;
+    line-height: 1.7;
+  }
+  .rsvp-msg small {
+    font-size: 11px;
+    color: #c8860080;
+    letter-spacing: 1px;
+    display: block;
+    margin-top: 6px;
+  }
+
+  .wpp-hint {
+    margin-top: 10px;
+    font-size: 10px;
+    color: #c8860060;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .dress-code {
+    margin-top: 14px;
+    font-size: 10px;
+    color: #c8860070;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: 'Special Elite', serif;
+  }
+
+  /* Bottom bar */
+  .bottom-bar {
+    background: #0d0500;
+    padding: 12px 24px;
+    text-align: center;
+    font-size: 10px;
+    color: #c8860050;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Floating notes container */
+  #notes-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 5;
+  }
+
+  @media (max-width: 480px) {
+    .main-title  { font-size: 40px; }
+    .cesar-name  { font-size: 52px; }
+    .info-grid   { grid-template-columns: 1fr; }
+    .ticket-top  { font-size: 8px; letter-spacing: 2px; }
+  }
+</style>
+</head>
+
+<div class="invite-wrap" id="wrap">
+  <div class="vinyl-bg"></div>
+  <div id="notes-layer"></div>
+
+  <div class="ticket-top">
+    <span>Música En Vivo</span>
+    <span>★ 64 años ★</span>
+    <span>Rock &amp; Soul</span>
+  </div>
+
+  <div class="lightning-bar"></div>
+
+  <div class="header">
+    <p class="era-label">★ Una noche de rock clásico ★</p>
+    <h1 class="main-title">ROCK &amp; ROLL</h1>
+    <p class="subtitle">PARTY &middot; 1960s EDITION</p>
+
+    <div class="vinyl-player" onclick="toggleVinyl()" title="Toca para girar el vinilo">
+      <div class="vinyl" id="vinyl">
+        <div class="vinyl-label">CÉSAR<br>64<br>AÑOS</div>
+      </div>
+    </div>
+    <p class="play-hint" id="play-hint">&#9654; TOCA EL VINILO</p>
+
+    <div class="amp-dots">
+      <div class="amp-dot lit"></div>
+      <div class="amp-dot"></div>
+      <div class="amp-dot lit"></div>
+      <div class="amp-dot"></div>
+      <div class="amp-dot lit"></div>
+    </div>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-icon">&#9834;</span>
+    <div class="divider-line"></div>
+    <span class="divider-icon">&#9733;</span>
+    <div class="divider-line"></div>
+    <span class="divider-icon">&#9834;</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="name-section">
+    <p class="presents-text">Celebra con nosotros a</p>
+    <h2 class="cesar-name">CÉSAR</h2>
+    <p class="turns-64">¡ 64 años de rock &amp; roll !</p>
+  </div>
+
+  <div class="bands-strip">
+    <div class="band-pill">The Rolling Stones</div>
+    <div class="band-pill">The Beatles</div>
+    <div class="band-pill">Elvis Presley</div>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-icon">&#9733;</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-cell"">
+      <span class="info-icon">&#127928;</span>
+      <span class="info-label">Fecha</span>
+      <span class="info-value" >Domingo<br>24 de Mayo</span>
+    </div>
+    <div class="info-cell" onclick="showDetail('hora')">
+      <span class="info-icon">&#127925;</span>
+      <span class="info-label">Hora</span>
+      <span class="info-value">2:45 PM<br></span>
+    </div>
+    <a class="info-cell maps-cell clickable"
+       href="https://maps.app.goo.gl/RsbEKLXM6u2gkhC96"
+       target="_blank"
+       rel="noopener noreferrer">
+      <span class="info-icon">&#128205;</span>
+      <span class="info-label">Lugar</span>
+      <span class="info-value">José Peón Contreras 10A<br>Col. Obrera</span>
+      
+    </a>
+  </div>
+
+  <div class="rsvp-section">
+    <p class="rsvp-label">¿Vas a estar en el show?</p>
+    <button class="rsvp-btn" id="rsvp-btn" onclick="confirmar()">
+      &#9733; CONFIRMAR ASISTENCIA &#9733;
+    </button>
+    <div class="rsvp-msg" id="rsvp-msg">
+      <p>ROCK ON! Abriendo WhatsApp...</p>
+      <small>Si no abre automaticamente, escribe al +52 55 2788 9039</small>
+    </div>
+    <p class="wpp-note">Al confirmar se abrirá WhatsApp con un mensaje listo para enviar</p>
+    <p class="dress-code">ADVERTENCIA: Esta es una fiesta SORPRESA</p>
+  </div>
+
+  <div class="lightning-bar"></div>
+
+  <div class="bottom-bar">
+    ♪ &nbsp; Recuerda que es una FIESTA SORPRESA, por favor no menciones nada al festejado &nbsp; ♪
+  </div>
+</div>
+
+<script>
+  var isSpinning = false;
+
+  function toggleVinyl() {
+    var vinyl = document.getElementById('vinyl');
+    var hint  = document.getElementById('play-hint');
+    isSpinning = !isSpinning;
+    if (isSpinning) {
+      vinyl.classList.add('spinning');
+      hint.textContent = 'GIRANDO...';
+      hint.classList.add('on');
+      lanzarNotas();
+    } else {
+      vinyl.classList.remove('spinning');
+      hint.innerHTML = '&#9654; TOCA EL VINILO';
+      hint.classList.remove('on');
+    }
+  }
+
+  function lanzarNotas() {
+    if (!isSpinning) return;
+    var layer = document.getElementById('notes-layer');
+    var simbolos = ['&hearts;', '&#9834;', '&#9835;', '&#9833;', '&#9836;', '*'];
+    var el = document.createElement('div');
+    el.innerHTML = simbolos[Math.floor(Math.random() * simbolos.length)];
+    el.style.cssText = [
+      'position:absolute',
+      'left:' + (20 + Math.random() * 60) + '%',
+      'top:15%',
+      'font-size:' + (14 + Math.random() * 14) + 'px',
+      'color:#ffcc00',
+      'opacity:1',
+      'pointer-events:none',
+      'transition:transform 1.6s ease, opacity 1.6s ease',
+      'transform:translateY(0) rotate(0deg)'
+    ].join(';');
+    layer.appendChild(el);
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        el.style.transform = 'translateY(-90px) rotate(' + (-40 + Math.random()*80) + 'deg)';
+        el.style.opacity = '0';
+      });
+    });
+    setTimeout(function() { el.parentNode && el.parentNode.removeChild(el); }, 1700);
+    if (isSpinning) setTimeout(lanzarNotas, 500 + Math.random() * 700);
+  }
+
+  function confirmar() {
+    var btn = document.getElementById('rsvp-btn');
+    var msg = document.getElementById('rsvp-msg');
+
+    btn.textContent = 'CONFIRMADO!';
+    btn.classList.add('done');
+    btn.disabled = true;
+    msg.classList.add('show');
+
+    // Celebracion visual
+    var layer = document.getElementById('notes-layer');
+    var items = ['&#9733;', '&#9834;', '&#9835;', '!', '&#9733;'];
+    for (var i = 0; i < 12; i++) {
+      (function(idx) {
+        setTimeout(function() {
+          var el = document.createElement('div');
+          el.innerHTML = items[Math.floor(Math.random() * items.length)];
+          el.style.cssText = [
+            'position:absolute',
+            'left:' + (5 + Math.random() * 90) + '%',
+            'top:' + (20 + Math.random() * 65) + '%',
+            'font-size:' + (16 + Math.random() * 22) + 'px',
+            'color:#ffcc00',
+            'opacity:1',
+            'pointer-events:none',
+            'transition:transform 1.3s ease, opacity 1.3s ease'
+          ].join(';');
+          layer.appendChild(el);
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              el.style.transform = 'translateY(-70px) scale(1.6)';
+              el.style.opacity = '0';
+            });
+          });
+          setTimeout(function() { el.parentNode && el.parentNode.removeChild(el); }, 1400);
+        }, idx * 100);
+      })(i);
+    }
+
+    // Abrir WhatsApp Web despues de 900ms
+    // Numero sin + ni espacios, solo digitos con codigo de pais
+    var telefono = '525527889039';
+    var mensaje = 'Hola! Confirmo mi asistencia al cumpleanos de Cesar. Ahi estare en el show!';
+    var url = 'https://wa.me/' + telefono + '?text=' + encodeURIComponent(mensaje);
+    setTimeout(function() {
+      window.location.href = url;
+    }, 900);
+  }
+</script>
+</body>
+</html>
